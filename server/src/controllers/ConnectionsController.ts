@@ -17,6 +17,6 @@ export default class ConnectionsController {
             user_id,
         });
 
-        return response.status(201).send('Requisição enviada com sucesso')
+        return response.status(201).json({ message: "Você realizou uma nova conexão!"});
     }
 }

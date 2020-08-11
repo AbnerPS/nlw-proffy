@@ -37,7 +37,7 @@ export default class ClassesController {
         .join('users', 'classes.user_id', '=', 'users.id')
         .select(['classes.*', 'users.*']);
         
-        return response.status(201)
+        return response.status(201).json(classes);
     }
 
     async create(request: Request, response: Response) {
@@ -51,7 +51,7 @@ export default class ClassesController {
             schedule
         } = request.body;
     
-        const trx = db.transaction();
+        const trx = await db.transaction();
     
         try {
             const insertedUsersIds = await trx('users').insert({
@@ -84,7 +84,7 @@ export default class ClassesController {
         
             await trx.commit();
             
-            return response.status(201).send("Requisição enviada com sucesso.");
+            return response.status(201).json({ message: "Cadastro realizado com sucesso!"});
         } catch (error) {
             await trx.rollback();
             return response.status(400).json({ message: error });
